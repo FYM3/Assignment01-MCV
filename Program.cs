@@ -1,3 +1,5 @@
+using Assignment01_MCV.Middleware;
+
 namespace Assignment01_MCV
 {
     public class Program
@@ -12,6 +14,8 @@ namespace Assignment01_MCV
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            app.UseMiddleware<RequestTimeMiddleware>();
+
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -27,7 +31,7 @@ namespace Assignment01_MCV
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Home}/{action=Index}/{id:int:range(10,20)?}")
                 .WithStaticAssets();
 
             app.Run();
